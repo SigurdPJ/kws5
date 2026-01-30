@@ -28,6 +28,13 @@ fetch(kartverketUrl).then(async (response) => {
   );
 });
 
+const skoleLayer = new VectorLayer({
+  source: new VectorSource({
+    url: "/kws5/geojson/skoler.geojson",
+    format: new GeoJSON(),
+  }),
+});
+
 const kommuneSource = new VectorSource({
   url: "/kws5/geojson/kommuner.geojson",
   format: new GeoJSON(),
@@ -38,7 +45,7 @@ const kommuneLayer = new VectorLayer({
 
 const map = new Map({
   view: new View({ center: [10.8, 59.9], zoom: 13 }),
-  layers: [kartverket, kommuneLayer],
+  layers: [kartverket, kommuneLayer, skoleLayer],
 });
 
 export function Application() {
