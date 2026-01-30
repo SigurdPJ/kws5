@@ -6,8 +6,10 @@ import { useGeographic } from "ol/proj.js";
 
 // @ts-ignore
 import "ol/ol.css";
-import { WMTSCapabilities } from "ol/format.js";
+import { GeoJSON, WMTSCapabilities } from "ol/format.js";
 import { optionsFromCapabilities } from "ol/source/WMTS.js";
+import VectorSource from "ol/source/Vector.js";
+import VectorLayer from "ol/layer/Vector.js";
 
 useGeographic();
 
@@ -26,9 +28,17 @@ fetch(kartverketUrl).then(async (response) => {
   );
 });
 
+const kommuneSource = new VectorSource({
+  url: "/kws5/geojson/kommuner.geojson",
+  format: new GeoJSON(),
+});
+const kommuneLayer = new VectorLayer({
+  source: kommuneSource,
+});
+
 const map = new Map({
   view: new View({ center: [10.8, 59.9], zoom: 13 }),
-  layers: [kartverket],
+  layers: [kartverket, kommuneLayer],
 });
 
 export function Application() {
